@@ -1,0 +1,78 @@
+public class Groupe {
+    private Student [] studentList=new Student[10];
+
+
+    public Student[] getStudentList() {
+        return studentList;
+    }
+
+    public void addStudent(Student student) throws IndexOutOfBoundsException{
+        int count=0;
+        for (int i = 0; i <studentList.length ; i++) {
+            if(studentList[i]==null){
+                studentList[i]=student;
+                break;
+            }
+            count++;
+            if (count>studentList.length-1){
+                throw new IndexOutOfBoundsException("нет места для добавления студента в группе");
+            }
+        }
+    }
+    public void removeStudent(int studentID) throws IllegalArgumentException {
+        if (studentID<=0){
+            throw new IllegalArgumentException("Введено не корректное ID студента");
+        }else {
+            for (int i = 0; i < studentList.length; i++) {
+                if (studentList[i].getStudentID() == studentID) {
+                    studentList[i] = null;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void sortBySurname(){
+       Student s;
+
+        for (int i = 0; i <studentList.length ; i++) {
+
+            for (int j = 1; j <studentList.length ; j++) {
+                if(studentList[i]==null){
+                    break;
+                }else if(studentList[j]==null){
+                 break;
+                }else if ( studentList[i].getSurname().charAt(0)>studentList[j].getSurname().charAt(0)){
+
+                    s=studentList[i];
+                    studentList[i]=studentList[j];
+                    studentList[j]=s;
+                }
+            }
+        }
+    }
+
+    public void findBySurname(String surname){
+        for (int i = 0; i <studentList.length ; i++) {
+            if (studentList[i].getSurname().equalsIgnoreCase(surname)){
+                System.out.println(studentList[i].toString());
+                break;
+            }
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        String students="";
+        for (Student s:studentList){
+            if (s!=null) {
+                students += s.toString();
+            }
+        }
+        return "Groupe{" +
+                "studentList=" + students +
+                '}';
+    }
+}
+
