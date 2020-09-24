@@ -6,7 +6,7 @@ public class Groupe {
         return studentList;
     }
 
-    public void addStudent(Student student) throws IndexOutOfBoundsException{
+    public void addStudent(Student student) throws MyException{
         int count=0;
         for (int i = 0; i <studentList.length ; i++) {
             if(studentList[i]==null){
@@ -14,20 +14,25 @@ public class Groupe {
                 break;
             }
             count++;
-            if (count>studentList.length-1){
-                throw new IndexOutOfBoundsException("нет места для добавления студента в группе");
+            if (count==studentList.length-1){
+                throw new MyException("нет места для добавления студента в группе");
             }
         }
     }
-    public void removeStudent(int studentID) throws IllegalArgumentException {
+    public void removeStudent(int studentID)  {
+        int count=0;
         if (studentID<=0){
-            throw new IllegalArgumentException("Введено не корректное ID студента");
+            System.out.println("Введено не корректное ID студента");
         }else {
             for (int i = 0; i < studentList.length; i++) {
+                count++;
+                if (studentList[i]!=null){
                 if (studentList[i].getStudentID() == studentID) {
                     studentList[i] = null;
                     break;
                 }
+            }
+               if(count==studentList.length-1) System.out.println("studentID: "+studentID +" не существует");
             }
         }
     }
@@ -52,13 +57,23 @@ public class Groupe {
         }
     }
 
-    public void findBySurname(String surname){
+    public Student findBySurname(String surname) throws MyException{
+        int count=0;
+        Student student=null;
         for (int i = 0; i <studentList.length ; i++) {
-            if (studentList[i].getSurname().equalsIgnoreCase(surname)){
-                System.out.println(studentList[i].toString());
-                break;
+            if(studentList[i]!=null) {
+                if (studentList[i].getSurname().equalsIgnoreCase(surname)) {
+                    student=studentList[i];
+                    break;
+                }
+            }
+            count++;
+            if (count==studentList.length-1){
+                throw new MyException("Студента с фамилией "+ surname+ " не существует");
             }
         }
+
+        return student;
     }
 
 
@@ -75,4 +90,3 @@ public class Groupe {
                 '}';
     }
 }
-
